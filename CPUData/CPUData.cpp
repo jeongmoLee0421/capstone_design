@@ -1,4 +1,5 @@
 #pragma comment(lib, "pdh.lib") // 라이브러리 링크시키기 위해 명시
+#pragma warning(disable:4996) // 4996에러 숨기기
 
 #include <iostream>
 #include <Pdh.h>
@@ -32,11 +33,20 @@ public:
 
 int main(void) {
 	CPUData cpuData;
+	double CPUUsage = 0.0;
+	double sum = 0.0; // cpu사용률 총합
+	double avg = 0.0; // cpu사용률 평균
+	int cnt = 0;
 
 	while (true) {
-		cout << "CPU Usage: " << cpuData.GetCPUUsage() << endl;
-		Sleep(1000);
+		CPUUsage = cpuData.GetCPUUsage();
+		sum += CPUUsage;
+		cnt++;
+		cout << "CPU Usage: " << CPUUsage << endl;
+		Sleep(10);
+		if (cnt == 1000)break;
 	}
-
+	avg = sum / cnt;
+	cout << "CPU Usage average: " << avg << endl;
 	return 0;
 }
