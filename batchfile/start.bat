@@ -1,11 +1,14 @@
 @echo off
 REM 불필요한 명령어 출력 차단
 
-cd "C:\Users\leejeongmo\Documents\repos\server\Debug"
+cd "C:\Users\leejeongmo\source\repos\Project1\Release"
+start CPUData.bat
+
+cd "C:\Users\leejeongmo\source\repos\ChatServer\Release"
 start serv.bat
 
 REM 클라이언트 프로그램이 있는 디렉터리로 이동
-cd "C:\Users\leejeongmo\Documents\repos\client\Debug"
+cd "C:\Users\leejeongmo\source\repos\ChatClient\Release"
 
 REM 여러 클라이언트 프로그램 실행을 위한 배치 프로그램 실행
 REM start 명령어를 통해 새로운 cmd.exe 창을 띄워 프로그램 실행
