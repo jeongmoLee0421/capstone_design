@@ -25,6 +25,8 @@ public:
 	void MakeClientSocket();
 	void ConnectServer();
 	void MakeThread();
+	Client(const Client& ref);
+	Client& operator=(const Client& ref);
 };
 
 void SendMsg(SOCKET hSock);

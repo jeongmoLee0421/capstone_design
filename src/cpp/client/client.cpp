@@ -106,3 +106,29 @@ void RecvMsg(SOCKET hSock) {
 	}
 	return;
 }
+
+Client::Client(const Client& ref) {
+	wsaData = ref.wsaData;
+	hSock = ref.hSock;
+	servAddr = ref.servAddr;
+
+	//스레드는 복사 안함
+
+	strcpy(ip, ref.ip);
+	port = ref.port;
+}
+
+Client& Client::operator=(const Client& ref) {
+	// 동적 할당한 메모리가 없기 때문에 그냥 복사해도 무방
+
+	wsaData = ref.wsaData;
+	hSock = ref.hSock;
+	servAddr = ref.servAddr;
+
+	//스레드는 복사 안함
+
+	strcpy(ip, ref.ip);
+	port = ref.port;
+
+	return *this;
+}
