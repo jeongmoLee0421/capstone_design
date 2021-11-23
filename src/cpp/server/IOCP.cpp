@@ -198,3 +198,70 @@ void IOCP::ErrorHandling(const char* msg) const {
 	fputc('\n', stderr);
 	exit(1);
 }
+
+// 복사 생성자를 사용하지는 않지만 기본 정의는 해주자
+IOCP::IOCP(const IOCP& ref) {
+	wsaData = ref.wsaData;
+	hComPort = ref.hComPort;
+	sysInfo = ref.sysInfo;
+	
+	// 동적 할당의 경우 같은 메모리를 가리키지 않게 새로 할당해서 복사
+	ioInfo = new IO_INFO;
+	if (ref.ioInfo != NULL) {
+		ioInfo->overlapped = ref.ioInfo->overlapped;
+		ioInfo->wsaBuf.buf = ioInfo->buffer;
+		ioInfo->wsaBuf.len = BUF_SIZE;
+		strcpy(ioInfo->buffer, ref.ioInfo->buffer);
+		ioInfo->rwMode = ref.ioInfo->rwMode;
+	}
+
+	clntInfo = new CLNT_INFO;
+	if (ref.clntInfo != NULL) {
+		clntInfo->hClntSock = ref.clntInfo->hClntSock;
+		clntInfo->clntAddr = ref.clntInfo->clntAddr;
+	}
+
+	dwRecvBytes = ref.dwRecvBytes;
+	dwFlags = ref.dwFlags;
+
+	//스레드는 복사하지 않을 것임
+
+	port = ref.port;
+}
+
+// 대입 연산자를 사용하지는 않지만 오버로딩 해두자
+IOCP& IOCP::operator=(const IOCP& ref) {
+	// 메모리 누수를 방지하기 위해 동적할당 받은 메모리 미리 해제
+	if (ioInfo != NULL)
+		delete ioInfo;
+	if (clntInfo != NULL)
+		delete clntInfo;
+
+	wsaData = ref.wsaData;
+	hComPort = ref.hComPort;
+	sysInfo = ref.sysInfo;
+
+	ioInfo = new IO_INFO;
+	if (ref.ioInfo != NULL) {
+		ioInfo->overlapped = ref.ioInfo->overlapped;
+		ioInfo->wsaBuf.buf = ioInfo->buffer;
+		ioInfo->wsaBuf.len = BUF_SIZE;
+		strcpy(ioInfo->buffer, ref.ioInfo->buffer);
+		ioInfo->rwMode = ref.ioInfo->rwMode;
+	}
+
+	clntInfo = new CLNT_INFO;
+	if (ref.clntInfo != NULL) {
+		clntInfo->hClntSock = ref.clntInfo->hClntSock;
+		clntInfo->clntAddr = ref.clntInfo->clntAddr;
+	}
+
+	dwRecvBytes = ref.dwRecvBytes;
+	dwFlags = ref.dwFlags;
+
+	//스레드는 복사하지 않을 것임
+
+	port = ref.port;
+
+	return *this; // 객체 자신을 의미하는 참조자를 반환하면 실행문에서 연속으로 연산이 가능
+}

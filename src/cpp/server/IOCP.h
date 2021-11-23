@@ -46,6 +46,8 @@ public:
 	void SocketListening() const;
 	void AcceptRoutine();
 	void ErrorHandling(const char* msg) const;
+	IOCP(const IOCP& ref); // 복사 생성자 정의(새로운 객체를 생성할 때)
+	IOCP& operator=(const IOCP& ref); // 대입 연산자 오버로딩(이미 생성되어 있는 객체에 대입할 때)
 };
 
 void EchoThreadMain(HANDLE hComPort);
